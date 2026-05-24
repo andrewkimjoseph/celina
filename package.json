@@ -1,6 +1,6 @@
 {
   "name": "@andrewkimjoseph/celina",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Celina — MCP server for Celo mainnet. Balances, transfers, and chain reads for LLM agents.",
   "type": "module",
   "main": "build/index.js",
