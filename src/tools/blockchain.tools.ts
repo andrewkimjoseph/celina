@@ -2,12 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { AppContext } from "../context/app-context.js";
 import type { ToolModule } from "./types.js";
-import {
-  addressSchema,
-  blockIdSchema,
-  networkSchema,
-  resolveNetwork,
-} from "../schemas/common.js";
+import { addressSchema, blockIdSchema } from "../schemas/common.js";
 import { err, ok } from "./helpers.js";
 
 export const blockchainTools: ToolModule = {
@@ -16,17 +11,16 @@ export const blockchainTools: ToolModule = {
       "get_network_status",
       {
         title: "Get Network Status",
-        description: "Returns Celo chain ID, latest block, and gas price.",
-        inputSchema: z.object({ network: networkSchema.optional() }),
+        description: "Returns Celo mainnet chain ID, latest block, and gas price.",
+        inputSchema: z.object({}),
         annotations: {
           readOnlyHint: true,
           idempotentHint: true,
         },
       },
-      async ({ network }) => {
+      async () => {
         try {
-          const resolved = resolveNetwork(network, ctx.config.defaultNetwork);
-          return ok(await ctx.blockchain.getNetworkStatus(resolved));
+          return ok(await ctx.blockchain.getNetworkStatus());
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
         }
@@ -37,17 +31,15 @@ export const blockchainTools: ToolModule = {
       "get_block",
       {
         title: "Get Block",
-        description: "Fetch a Celo block by number, hash, or latest.",
+        description: "Fetch a Celo mainnet block by number, hash, or latest.",
         inputSchema: z.object({
           blockId: blockIdSchema,
-          network: networkSchema.optional(),
         }),
         annotations: { readOnlyHint: true, idempotentHint: true },
       },
-      async ({ blockId, network }) => {
+      async ({ blockId }) => {
         try {
-          const resolved = resolveNetwork(network, ctx.config.defaultNetwork);
-          return ok(await ctx.blockchain.getBlock(resolved, blockId));
+          return ok(await ctx.blockchain.getBlock(blockId));
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
         }
@@ -58,17 +50,15 @@ export const blockchainTools: ToolModule = {
       "get_latest_blocks",
       {
         title: "Get Latest Blocks",
-        description: "Fetch the most recent blocks on Celo.",
+        description: "Fetch the most recent blocks on Celo mainnet.",
         inputSchema: z.object({
           count: z.number().int().min(1).max(20).default(5),
-          network: networkSchema.optional(),
         }),
         annotations: { readOnlyHint: true, idempotentHint: true },
       },
-      async ({ count, network }) => {
+      async ({ count }) => {
         try {
-          const resolved = resolveNetwork(network, ctx.config.defaultNetwork);
-          return ok(await ctx.blockchain.getLatestBlocks(resolved, count));
+          return ok(await ctx.blockchain.getLatestBlocks(count));
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
         }
@@ -79,18 +69,16 @@ export const blockchainTools: ToolModule = {
       "get_transaction",
       {
         title: "Get Transaction",
-        description: "Fetch a transaction and receipt by hash.",
+        description: "Fetch a transaction and receipt by hash on Celo mainnet.",
         inputSchema: z.object({
           hash: z.string().regex(/^0x[a-fA-F0-9]{64}$/),
-          network: networkSchema.optional(),
         }),
         annotations: { readOnlyHint: true, idempotentHint: true },
       },
-      async ({ hash, network }) => {
+      async ({ hash }) => {
         try {
-          const resolved = resolveNetwork(network, ctx.config.defaultNetwork);
           return ok(
-            await ctx.blockchain.getTransaction(resolved, hash as `0x${string}`),
+            await ctx.blockchain.getTransaction(hash as `0x${string}`),
           );
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
@@ -106,21 +94,16 @@ export const accountTools: ToolModule = {
       "get_account",
       {
         title: "Get Account",
-        description: "Returns native CELO balance, nonce, and contract flag.",
+        description: "Returns native CELO balance, nonce, and contract flag on mainnet.",
         inputSchema: z.object({
           address: addressSchema,
-          network: networkSchema.optional(),
         }),
         annotations: { readOnlyHint: true, idempotentHint: true },
       },
-      async ({ address, network }) => {
+      async ({ address }) => {
         try {
-          const resolved = resolveNetwork(network, ctx.config.defaultNetwork);
           return ok(
-            await ctx.account.getAccount(
-              resolved,
-              address as `0x${string}`,
-            ),
+            await ctx.account.getAccount(address as `0x${string}`),
           );
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
