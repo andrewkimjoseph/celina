@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import "./config/load-env.js";
 import { app } from "./server/create-http-app.js";
 
 const PORT = parseInt(process.env.PORT || "10000", 10);

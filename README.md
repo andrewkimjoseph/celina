@@ -260,6 +260,8 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 | `get_mento_fx_quote` | read | Mento FX expected output (no wallet) |
 | `estimate_mento_fx` | read* | Mento FX gas estimate (*needs encrypted or env key) |
 | `execute_mento_fx` | write | Execute Mento FX conversion |
+| `supply_aave_usdt` | write | Supply USDT to Aave V3 on Celo |
+| `withdraw_aave_usdt` | write | Withdraw USDT from Aave V3 on Celo |
 
 ## Adding a new tool
 
@@ -286,7 +288,7 @@ No changes to `src/index.ts` or server bootstrap required.
 ## Roadmap
 
 - [x] Mento FX routing (`get_mento_fx_quote`, `estimate_mento_fx`, `execute_mento_fx`)
-- [ ] Aave lending tools
+- [x] Aave lending tools (`supply_aave_usdt`, `withdraw_aave_usdt`)
 - [ ] Self proof verification (`ai.self.xyz`)
 - [ ] Self Agent ID check
 

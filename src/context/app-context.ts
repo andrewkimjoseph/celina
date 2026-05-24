@@ -5,6 +5,7 @@ import { TokenService } from "../services/token.service.js";
 import { TransactionService } from "../services/transaction.service.js";
 import { MentoFxService } from "../services/mento-fx.service.js";
 import { GoodDollarService } from "../services/gooddollar.service.js";
+import { AaveService } from "../services/aave.service.js";
 
 export interface AppContext {
   config: {
@@ -17,6 +18,7 @@ export interface AppContext {
   transaction: TransactionService;
   mentoFx: MentoFxService;
   gooddollar: GoodDollarService;
+  aave: AaveService;
 }
 
 export function createAppContext(
@@ -34,5 +36,6 @@ export function createAppContext(
     transaction: new TransactionService(clientFactory),
     mentoFx: new MentoFxService(clientFactory),
     gooddollar: new GoodDollarService(clientFactory),
+    aave: new AaveService(clientFactory),
   };
 }

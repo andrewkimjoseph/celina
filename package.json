@@ -1,6 +1,6 @@
 {
   "name": "@andrewkimjoseph/celina",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Celina — MCP server for Celo mainnet. Balances, transfers, and chain reads for LLM agents.",
   "type": "module",
   "main": "build/index.js",
@@ -40,8 +40,10 @@
   "author": "Andrew Kim Joseph",
   "license": "MIT",
   "dependencies": {
+    "@aave/client": "^0.9.3",
     "@mento-protocol/mento-sdk": "^3.2.8",
     "@modelcontextprotocol/sdk": "^1.22.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "viem": "^2.39.3",
     "zod": "^3.24.3"

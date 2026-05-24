@@ -10,6 +10,7 @@ Guidelines:
 - Use get_stablecoin_balances to scan all stablecoins at once; use get_celo_balances with a tokens list for specific symbols.
 - Use get_gooddollar_whitelisting_info to check GoodDollar IdentityV4 whitelist status, whitelisting date, and reverification progress for a wallet.
 - Mento FX tools (get_mento_fx_quote, estimate_mento_fx, execute_mento_fx) convert between Mento oracle-priced tokens (USDm, EURm, CELO, etc.). They are unavailable when the Mento FX market is closed.
+- Aave tools (supply_aave_usdt, withdraw_aave_usdt) supply and withdraw USDT on Aave V3 Celo. Use get_celo_balances with tokens ["USDT"] before supplying; use withdrawMax on withdraw to redeem the full supplied balance.
 
-Future tools (add as new modules in src/tools/): lend on Aave, Self verify, Self Agent ID check.
+Future tools (add as new modules in src/tools/): Self verify, Self Agent ID check.
 `.trim();
