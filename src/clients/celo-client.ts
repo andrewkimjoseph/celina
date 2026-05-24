@@ -6,8 +6,8 @@ import {
   type WalletClient,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import type { AppConfig, CeloNetwork } from "../config/env.js";
-import { CHAINS, DEFAULT_RPC_URLS } from "../config/chains.js";
+import type { AppConfig } from "../config/env.js";
+import { CHAIN, DEFAULT_RPC_URL } from "../config/chains.js";
 
 export interface CeloClients {
   public: PublicClient;
@@ -16,22 +16,21 @@ export interface CeloClients {
 }
 
 export class CeloClientFactory {
-  private readonly cache = new Map<CeloNetwork, CeloClients>();
+  private clients: CeloClients | null = null;
 
   constructor(private readonly config: AppConfig) {}
 
-  getClients(network: CeloNetwork): CeloClients {
-    const cached = this.cache.get(network);
-    if (cached) {
-      return cached;
+  getClients(): CeloClients {
+    if (this.clients) {
+      return this.clients;
     }
 
-    const chain = CHAINS[network];
-    const rpcUrl =
-      this.config.rpcUrls[network] ?? DEFAULT_RPC_URLS[network];
+    const rpcUrl = this.config.rpcUrl ?? DEFAULT_RPC_URL;
     const transport = http(rpcUrl);
-
-    const publicClient = createPublicClient({ chain, transport });
+    const publicClient = createPublicClient({
+      chain: CHAIN,
+      transport,
+    }) as PublicClient;
 
     let wallet: WalletClient | undefined;
     let accountAddress: `0x${string}` | undefined;
@@ -41,36 +40,32 @@ export class CeloClientFactory {
       accountAddress = account.address;
       wallet = createWalletClient({
         account,
-        chain,
+        chain: CHAIN,
         transport,
       });
     }
 
-    const clients: CeloClients = {
+    this.clients = {
       public: publicClient,
       wallet,
       accountAddress,
     };
 
-    this.cache.set(network, clients);
-    return clients;
+    return this.clients;
   }
 
-  getClientsForAccount(
-    network: CeloNetwork,
-    privateKey: `0x${string}`,
-  ): CeloClients {
-    const chain = CHAINS[network];
-    const rpcUrl =
-      this.config.rpcUrls[network] ?? DEFAULT_RPC_URLS[network];
+  getClientsForAccount(privateKey: `0x${string}`): CeloClients {
+    const rpcUrl = this.config.rpcUrl ?? DEFAULT_RPC_URL;
     const transport = http(rpcUrl);
-
-    const publicClient = createPublicClient({ chain, transport });
+    const publicClient = createPublicClient({
+      chain: CHAIN,
+      transport,
+    }) as PublicClient;
     const account = privateKeyToAccount(privateKey);
 
     const wallet = createWalletClient({
       account,
-      chain,
+      chain: CHAIN,
       transport,
     });
 
