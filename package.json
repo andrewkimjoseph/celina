@@ -1,11 +1,11 @@
 {
-  "name": "@andrewkimjoseph/celo-mcp",
-  "version": "0.1.2",
-  "description": "MCP server for Celo — balances, transfers, swaps, and chain reads for LLM agents",
+  "name": "@andrewkimjoseph/celina-mcp",
+  "version": "0.2.0",
+  "description": "Celina — MCP server for Celo mainnet. Balances, transfers, swaps, and chain reads for LLM agents.",
   "type": "module",
   "main": "build/index.js",
   "bin": {
-    "celo-mcp": "./bin/cli.js"
+    "celina": "./bin/cli.js"
   },
   "files": [
     "build/",
@@ -27,6 +27,7 @@
   },
   "keywords": [
     "mcp",
+    "celina",
     "celo",
     "blockchain",
     "web3",
