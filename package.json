@@ -1,6 +1,6 @@
 {
   "name": "@andrewkimjoseph/celo-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server for Celo — balances, transfers, swaps, and chain reads for LLM agents",
   "type": "module",
   "main": "build/index.js",
