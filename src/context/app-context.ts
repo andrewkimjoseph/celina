@@ -3,6 +3,7 @@ import { BlockchainService } from "../services/blockchain.service.js";
 import { AccountService } from "../services/account.service.js";
 import { TokenService } from "../services/token.service.js";
 import { TransactionService } from "../services/transaction.service.js";
+import { GoodDollarService } from "../services/gooddollar.service.js";
 
 export interface AppContext {
   config: {
@@ -13,6 +14,7 @@ export interface AppContext {
   account: AccountService;
   token: TokenService;
   transaction: TransactionService;
+  gooddollar: GoodDollarService;
 }
 
 export function createAppContext(
@@ -28,5 +30,6 @@ export function createAppContext(
     account: new AccountService(clientFactory),
     token: new TokenService(clientFactory),
     transaction: new TransactionService(clientFactory),
+    gooddollar: new GoodDollarService(clientFactory),
   };
 }
