@@ -5,7 +5,10 @@
   "type": "module",
   "main": "build/index.js",
   "bin": {
-    "celina": "./bin/cli.js"
+    "celina": "bin/cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "build/",

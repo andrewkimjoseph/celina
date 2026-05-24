@@ -2,7 +2,7 @@
 
 **Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read + write access to **Celo mainnet** — balances, stablecoins, sends, swaps (quote stub), and chain reads.
 
-Website: [celinaherself.lovable.app](https://celinaherself.lovable.app/)
+Website: [celina.andrewkimjoseph.com](https://celina.andrewkimjoseph.com)
 
 ## Install
 
@@ -10,7 +10,17 @@ Website: [celinaherself.lovable.app](https://celinaherself.lovable.app/)
 npm i @andrewkimjoseph/celina-mcp
 ```
 
-## Quick start (local)
+npm: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp)
+
+## Quick start
+
+**From npm** (stdio MCP server):
+
+```bash
+npx @andrewkimjoseph/celina-mcp
+```
+
+**From source** (development):
 
 ```bash
 npm install
@@ -72,7 +82,20 @@ Or with streamable HTTP directly:
 }
 ```
 
-### Local stdio
+### Local stdio (npm)
+
+```json
+{
+  "mcpServers": {
+    "celina": {
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina-mcp"]
+    }
+  }
+}
+```
+
+### Local stdio (from source)
 
 ```json
 {
@@ -142,7 +165,7 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 - `get_celo_balances` — check specific tokens (defaults to `CELO` + `USDm`)
 - `get_stablecoin_balances` — scan all registry stablecoins in one call (omits zero balances by default)
 
-## Tools (v0.1)
+## Tools (v0.2)
 
 | Tool | Type | Description |
 |------|------|-------------|
