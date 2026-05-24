@@ -15,4 +15,4 @@ export const blockIdSchema = z
 
 export const tokenSymbolSchema = z
   .string()
-  .describe("Token symbol (e.g. CELO, cUSD) or 0x contract address");
+  .describe("Token symbol (e.g. CELO, USDm, G$, GoodDollar) or 0x contract address");

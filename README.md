@@ -108,9 +108,9 @@ All supported tokens live in a single registry (`src/config/chains.ts`):
 | Native | `CELO` |
 | Mento stablecoins | `USDm`, `EURm`, `BRLm`, `XOFm`, `KESm`, `PHPm`, `COPm`, `GBPm`, `CADm`, `AUDm`, `ZARm`, `GHSm`, `NGNm`, `JPYm`, `CHFm` |
 | Bridged / third-party | `USDT`, `USDC`, `vEUR`, `vGBP`, `vCHF`, `USDM`, `USDA`, `EURA`, `USDGLO`, `BRLA`, `COPM` |
-| GoodDollar | `GoodDollar` (`0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c7A`) |
+| GoodDollar | `GoodDollar`, `G$` (`0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c7A`) |
 
-Token symbols are resolved case-insensitively. You can also pass any ERC-20 contract address directly.
+Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` map to `USDm` and `EURm`. You can also pass any ERC-20 contract address directly.
 
 - `get_celo_balances` — check specific tokens (defaults to `CELO` + `USDm`)
 - `get_stablecoin_balances` — scan all registry stablecoins in one call (omits zero balances by default)

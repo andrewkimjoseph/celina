@@ -8,6 +8,7 @@ export type KnownToken = {
   symbol: string;
   address: `0x${string}` | "native";
   decimals: number;
+  aliases?: string[];
   issuer?: string;
   useCase?: string;
 };
@@ -20,6 +21,7 @@ export const KNOWN_TOKENS: KnownToken[] = [
   },
   {
     symbol: "USDm",
+    aliases: ["cUSD"],
     address: "0x765de816845861e75a25fca122bb6898b8b1282a",
     issuer: "Mento",
     useCase: "US Dollar-pegged stablecoin (Mento Dollar)",
@@ -27,6 +29,7 @@ export const KNOWN_TOKENS: KnownToken[] = [
   },
   {
     symbol: "EURm",
+    aliases: ["cEUR"],
     address: "0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73",
     issuer: "Mento",
     useCase: "Euro-pegged stablecoin (Mento Euro)",
@@ -202,6 +205,7 @@ export const KNOWN_TOKENS: KnownToken[] = [
   },
   {
     symbol: "GoodDollar",
+    aliases: ["G$"],
     address: "0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c7A",
     issuer: "GoodDollar",
     useCase: "UBI-focused stablecoin for financial inclusion",
@@ -222,7 +226,22 @@ export const STABLECOINS = KNOWN_TOKENS.filter(
     token.useCase !== undefined,
 );
 
-export const KNOWN_TOKEN_SYMBOLS = KNOWN_TOKENS.map((token) => token.symbol).sort();
+export const KNOWN_TOKEN_SYMBOLS = KNOWN_TOKENS.flatMap((token) => [
+  token.symbol,
+  ...(token.aliases ?? []),
+]).sort();
+
+function tokenMatchesInput(token: KnownToken, normalized: string, upper: string): boolean {
+  if (token.symbol === normalized || token.symbol.toUpperCase() === upper) {
+    return true;
+  }
+
+  return (
+    token.aliases?.some(
+      (alias) => alias === normalized || alias.toUpperCase() === upper,
+    ) ?? false
+  );
+}
 
 export function findKnownToken(token: string): KnownToken | undefined {
   const normalized = token.trim();
@@ -230,8 +249,7 @@ export function findKnownToken(token: string): KnownToken | undefined {
 
   return KNOWN_TOKENS.find(
     (entry) =>
-      entry.symbol === normalized ||
-      entry.symbol.toUpperCase() === upper ||
+      tokenMatchesInput(entry, normalized, upper) ||
       (upper === "NATIVE" && entry.address === "native"),
   );
 }
@@ -241,9 +259,13 @@ export function resolveStablecoins(symbols?: string[]): Stablecoin[] {
     return STABLECOINS;
   }
 
-  const wanted = new Set(symbols.map((symbol) => symbol.trim().toUpperCase()));
+  const wanted = symbols.map((symbol) => symbol.trim());
+
   const matched = STABLECOINS.filter((coin) =>
-    wanted.has(coin.symbol.toUpperCase()),
+    wanted.some((input) => {
+      const upper = input.toUpperCase();
+      return tokenMatchesInput(coin, input, upper);
+    }),
   );
 
   if (matched.length === 0) {
