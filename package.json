@@ -14,7 +14,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf build && tsc",
     "start": "node build/index.js",
     "start:http": "node build/http.js",
     "dev": "tsc --watch",
