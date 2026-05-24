@@ -10,7 +10,7 @@ if (!process.env.WALLET_ENCRYPTION_PRIVATE_KEY) {
 }
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Celo MCP HTTP server listening on port ${PORT}`);
+  console.log(`Celina HTTP server listening on port ${PORT}`);
 });
 
 process.on("SIGINT", () => {
