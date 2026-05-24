@@ -1,6 +1,14 @@
-# Celo MCP
+# Celina — Celo MCP Server
 
-Open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read + write access to **Celo mainnet** — balances, stablecoins, sends, swaps (quote stub), and chain reads.
+**Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read + write access to **Celo mainnet** — balances, stablecoins, sends, swaps (quote stub), and chain reads.
+
+Website: [celinaherself.lovable.app](https://celinaherself.lovable.app/)
+
+## Install
+
+```bash
+npm i @andrewkimjoseph/celina-mcp
+```
 
 ## Quick start (local)
 
@@ -26,20 +34,39 @@ openssl rsa -pubout -in private.pem -out public.pem
 1. Push this repo to GitHub
 2. Render Dashboard → **New → Blueprint** → connect the repo
 3. Set `WALLET_ENCRYPTION_PRIVATE_KEY` in the Render Environment tab (paste contents of `private.pem`)
-4. Your MCP endpoint will be at `https://<service-name>.onrender.com/mcp`
+4. Your MCP endpoint will be at `https://celina.onrender.com/mcp`
 
 > **Note:** Free Render services spin down after ~15 minutes of inactivity. Cold starts can take 30–60 seconds and may cause MCP client timeouts. Use a Starter plan for always-on hosting.
 
 ## Cursor / Claude Desktop config
 
-### Remote (Render — recommended for hackathon)
+### Remote (Render — recommended)
 
 ```json
 {
   "mcpServers": {
-    "celo": {
+    "celina": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://celina.onrender.com/mcp",
+        "--transport",
+        "http-only"
+      ]
+    }
+  }
+}
+```
+
+Or with streamable HTTP directly:
+
+```json
+{
+  "mcpServers": {
+    "celina": {
       "type": "streamable-http",
-      "url": "https://your-service-name.onrender.com/mcp"
+      "url": "https://celina.onrender.com/mcp"
     }
   }
 }
@@ -50,9 +77,9 @@ openssl rsa -pubout -in private.pem -out public.pem
 ```json
 {
   "mcpServers": {
-    "celo": {
+    "celina": {
       "command": "node",
-      "args": ["/absolute/path/to/celo_mcp/build/index.js"]
+      "args": ["/absolute/path/to/celina/build/index.js"]
     }
   }
 }
@@ -76,11 +103,11 @@ Write tools (`send_token`, `estimate_send`) accept an RSA-encrypted private key 
 
 1. Fetch the server's public key:
    - MCP tool: `get_wallet_encryption_public_key`
-   - HTTP: `GET https://your-service.onrender.com/public-key`
+   - HTTP: `GET https://celina.onrender.com/public-key`
 2. Encrypt your key locally:
 
 ```bash
-npm run encrypt-key -- --url https://your-service-name.onrender.com --key 0xYOUR_PRIVATE_KEY
+npm run encrypt-key -- --url https://celina.onrender.com --key 0xYOUR_PRIVATE_KEY
 ```
 
 3. Give the agent the encrypted blob (base64 output) along with your transaction details
