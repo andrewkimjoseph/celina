@@ -2,12 +2,11 @@ import type { TransactionExecutionResult } from "@aave/client";
 import type { ExecutionPlan, TransactionRequest } from "@aave/graphql";
 import { txHash } from "@aave/types";
 import type { PublicClient, WalletClient } from "viem";
-import { appendCelinaCalldataTag } from "../utils/celina-calldata.js";
 
 function toTxParams(request: TransactionRequest) {
   return {
     to: request.to as `0x${string}`,
-    data: appendCelinaCalldataTag(request.data as `0x${string}`),
+    data: request.data as `0x${string}`,
     value: BigInt(request.value),
   };
 }
