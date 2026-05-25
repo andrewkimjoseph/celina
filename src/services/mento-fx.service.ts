@@ -10,6 +10,7 @@ import { formatUnits } from "viem";
 import type { CeloClientFactory, CeloClients } from "../clients/celo-client.js";
 import { toMentoTokenAddress } from "../config/chains.js";
 import { decryptPrivateKey } from "../crypto/wallet-key-crypto.js";
+import { appendCelinaCalldataTag } from "../utils/celina-calldata.js";
 import { TokenService, type ResolvedToken } from "./token.service.js";
 
 export interface MentoFxParams {
@@ -99,7 +100,7 @@ export class MentoFxService {
   private toGasParams(params: CallParams) {
     return {
       to: params.to as `0x${string}`,
-      data: params.data as `0x${string}`,
+      data: appendCelinaCalldataTag(params.data as `0x${string}`),
       value: BigInt(params.value),
     };
   }

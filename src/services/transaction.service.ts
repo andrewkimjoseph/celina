@@ -1,6 +1,7 @@
 import { encodeFunctionData, erc20Abi, parseEther } from "viem";
 import type { CeloClientFactory, CeloClients } from "../clients/celo-client.js";
 import { decryptPrivateKey } from "../crypto/wallet-key-crypto.js";
+import { appendCelinaCalldataTag } from "../utils/celina-calldata.js";
 import { TokenService } from "./token.service.js";
 
 export class TransactionService {
@@ -48,6 +49,7 @@ export class TransactionService {
         account: from,
         to,
         value,
+        data: appendCelinaCalldataTag(),
       });
 
       return {
@@ -61,11 +63,13 @@ export class TransactionService {
     }
 
     const tokenAmount = this.tokenService.parseAmount(amount, resolved.decimals);
-    const data = encodeFunctionData({
-      abi: erc20Abi,
-      functionName: "transfer",
-      args: [to, tokenAmount],
-    });
+    const data = appendCelinaCalldataTag(
+      encodeFunctionData({
+        abi: erc20Abi,
+        functionName: "transfer",
+        args: [to, tokenAmount],
+      }),
+    );
 
     const gas = await client.estimateGas({
       account: from,
@@ -116,6 +120,7 @@ export class TransactionService {
         account,
         to,
         value: parseEther(amount),
+        data: appendCelinaCalldataTag(),
       });
 
       const receipt = await client.waitForTransactionReceipt({ hash });
@@ -131,13 +136,18 @@ export class TransactionService {
     }
 
     const tokenAmount = this.tokenService.parseAmount(amount, resolved.decimals);
-    const hash = await wallet.writeContract({
+    const data = appendCelinaCalldataTag(
+      encodeFunctionData({
+        abi: erc20Abi,
+        functionName: "transfer",
+        args: [to, tokenAmount],
+      }),
+    );
+    const hash = await wallet.sendTransaction({
       chain,
       account,
-      address: resolved.address,
-      abi: erc20Abi,
-      functionName: "transfer",
-      args: [to, tokenAmount],
+      to: resolved.address,
+      data,
     });
 
     const receipt = await client.waitForTransactionReceipt({ hash });
