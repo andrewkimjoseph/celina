@@ -8,7 +8,6 @@ import { tokenTools } from "./token.tools.js";
 import { transactionTools } from "./transaction.tools.js";
 import { mentoFxTools } from "./mento-fx.tools.js";
 import { aaveTools } from "./aave.tools.js";
-import { walletTools } from "./wallet.tools.js";
 import { ensTools } from "./ens.tools.js";
 
 export const toolModules: ToolModule[] = [
@@ -16,7 +15,6 @@ export const toolModules: ToolModule[] = [
   accountTools,
   ensTools,
   tokenTools,
-  walletTools,
   transactionTools,
   mentoFxTools,
   aaveTools,
