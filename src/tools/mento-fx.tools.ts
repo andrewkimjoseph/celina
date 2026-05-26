@@ -9,7 +9,7 @@ const encryptedPrivateKeySchema = z
   .string()
   .optional()
   .describe(
-    "RSA-OAEP encrypted private key (base64). Encrypt locally with get_wallet_encryption_public_key.",
+    "Optional RSA-OAEP encrypted private key (base64) for self-hosted HTTP mode. Prefer CELO_PRIVATE_KEY in MCP env.",
   );
 
 const mentoFxInputSchema = z.object({
@@ -62,7 +62,7 @@ export const mentoFxTools: ToolModule = {
       {
         title: "Estimate Mento FX",
         description:
-          "Estimate gas for a Mento FX conversion on mainnet, including ERC-20 approval if needed. Requires encryptedPrivateKey (hosted) or CELO_PRIVATE_KEY (local).",
+          "Estimate gas for a Mento FX conversion on mainnet, including ERC-20 approval if needed. Requires CELO_PRIVATE_KEY in MCP server env.",
         inputSchema: mentoFxWalletSchema,
         annotations: { readOnlyHint: true },
       },
@@ -95,7 +95,7 @@ export const mentoFxTools: ToolModule = {
       {
         title: "Execute Mento FX",
         description:
-          "Execute a Mento FX conversion on mainnet (e.g. USDm → EURm via Mento oracle pools). Sends approval first if needed, then the FX trade. User must encrypt their private key with the server's public key (get_wallet_encryption_public_key) before calling.",
+          "Execute a Mento FX conversion on mainnet (e.g. USDm → EURm via Mento oracle pools). Sends approval first if needed, then the FX trade. Requires CELO_PRIVATE_KEY in MCP server env.",
         inputSchema: mentoFxWalletSchema,
         annotations: {
           destructiveHint: true,
