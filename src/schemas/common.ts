@@ -4,6 +4,13 @@ export const addressSchema = z
   .string()
   .regex(/^0x[a-fA-F0-9]{40}$/, "Invalid Ethereum address");
 
+export const addressOrEnsSchema = z
+  .string()
+  .min(3)
+  .describe(
+    "Recipient 0x address or ENS name (e.g. andrewkimjoseph.celo.eth, celina.eth)",
+  );
+
 export const blockIdSchema = z
   .union([
     z.number().int().nonnegative(),
