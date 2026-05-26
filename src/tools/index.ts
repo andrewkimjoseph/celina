@@ -9,10 +9,12 @@ import { transactionTools } from "./transaction.tools.js";
 import { mentoFxTools } from "./mento-fx.tools.js";
 import { aaveTools } from "./aave.tools.js";
 import { walletTools } from "./wallet.tools.js";
+import { ensTools } from "./ens.tools.js";
 
 export const toolModules: ToolModule[] = [
   blockchainTools,
   accountTools,
+  ensTools,
   tokenTools,
   walletTools,
   transactionTools,

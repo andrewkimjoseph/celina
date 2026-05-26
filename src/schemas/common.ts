@@ -16,3 +16,8 @@ export const blockIdSchema = z
 export const tokenSymbolSchema = z
   .string()
   .describe("Token symbol (e.g. CELO, USDm, G$, GoodDollar) or 0x contract address");
+
+export const ensNameSchema = z
+  .string()
+  .min(3)
+  .describe("ENS name, e.g. celina.eth or vitalik.eth");
