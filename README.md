@@ -102,29 +102,45 @@ For development from a cloned repo, point at your local `build/index.js`:
 }
 ```
 
-## Local LLM integration
+## Run Celina with your own model
 
-Celina is an **MCP tool server**. A local LLM stack needs an **MCP client** that can connect to Celina and pass tool definitions to a model that supports **function / tool calling**.
+Celina is a plain MCP server. Pair it with any MCP-aware local stack — Ollama, LM Studio, llama.cpp — through a client that supports tool calling.
 
-Read-only tools (balances, blocks, GoodDollar status, etc.) work out of the box. For write tools (`send_token`, `estimate_send`, `execute_mento_fx`, Aave supply/withdraw), set `CELO_PRIVATE_KEY` in the MCP server `env` block.
+Read-only tools (balances, blocks, GoodDollar status, etc.) work out of the box. For write tools, set `CELO_PRIVATE_KEY` in the MCP server `env` block.
 
 ### LM Studio (0.3.17+)
 
-LM Studio can host MCP servers directly via `mcp.json`. After `npm i @andrewkimjoseph/celina`:
+Native MCP hosting via `mcp.json`.
 
-1. Open LM Studio → **Program** → **Install** → **Edit mcp.json**
-2. Add Celina under `mcpServers` (same JSON as [Local stdio (recommended)](#local-stdio-recommended))
-3. In **Server Settings**, enable **Allow calling servers from mcp.json**
-4. Chat with a tool-capable model (e.g. Qwen 2.5, Llama 3.1+)
+1. **Program** → **Install** → **Edit mcp.json**
+2. Add Celina under `mcpServers`
+3. Enable **Allow calling servers from mcp.json**
+4. Chat with a tool-capable model (Qwen 2.5, Llama 3.1+)
 
-Omit both env vars for read-only chain queries.
+```json
+{
+  "mcpServers": {
+    "celina": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina"],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}
+```
 
-### Continue (VS Code)
+Omit `CELO_PRIVATE_KEY` for read-only.
 
-[Continue](https://docs.continue.dev/customize/deep-dives/mcp) works with local models (Ollama, LM Studio, etc.) in **agent mode**.
+### Continue · VS Code
 
-1. Run `npm i @andrewkimjoseph/celina`
-2. Create `.continue/mcpServers/celina.yaml` in your workspace
+Agent mode in your editor. Drop a YAML file into your workspace and Continue picks it up in agent mode.
+
+1. Create `.continue/mcpServers/celina.yaml`
+2. Paste the snippet below
 3. Switch Continue to agent mode and prompt
 
 ```yaml
