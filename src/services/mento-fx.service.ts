@@ -75,7 +75,7 @@ export class MentoFxService {
     const clients = this.clientFactory.getClients();
     if (!clients.wallet || !clients.accountAddress) {
       throw new Error(
-        "No wallet configured. Provide encryptedPrivateKey (encrypt with get_wallet_encryption_public_key) or set CELO_PRIVATE_KEY for local mode.",
+        "No wallet configured. Set CELO_PRIVATE_KEY in the MCP server env.",
       );
     }
 
@@ -371,7 +371,7 @@ export class MentoFxService {
 
     if (!wallet || !from) {
       throw new Error(
-        "Wallet client unavailable. Provide encryptedPrivateKey or set CELO_PRIVATE_KEY.",
+        "Wallet client unavailable. Set CELO_PRIVATE_KEY in the MCP server env.",
       );
     }
 
