@@ -12,7 +12,7 @@ const encryptedSelfAgentPrivateKeySchema = z
   .string()
   .optional()
   .describe(
-    "RSA-OAEP encrypted Self agent private key (base64). Encrypt locally with get_wallet_encryption_public_key.",
+    "Optional RSA-OAEP encrypted Self agent private key (base64) for self-hosted HTTP mode. Prefer SELF_AGENT_PRIVATE_KEY in MCP env.",
   );
 
 const selfRegistrationModeSchema = z
