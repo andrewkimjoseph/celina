@@ -50,6 +50,7 @@
   },
   "homepage": "https://github.com/andrewkimjoseph/celina-mcp#readme",
   "dependencies": {
+    "@andrewkimjoseph/celina-sdk": "^0.1.0",
     "@mento-protocol/mento-sdk": "^3.2.8",
     "@modelcontextprotocol/sdk": "^1.22.0",
     "@noble/ed25519": "^3.1.0",
