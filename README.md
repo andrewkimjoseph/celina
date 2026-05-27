@@ -208,19 +208,23 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 - `get_celo_balances` — check specific tokens (defaults to `CELO` + `USDm`)
 - `get_stablecoin_balances` — scan all registry stablecoins in one call (omits zero balances by default)
 
-## Tools (v0.2)
+## Tools (v0.7)
 
 | Tool | Type | Description |
 |------|------|-------------|
 | `get_network_status` | read | Mainnet chain ID, block, gas price |
-| `get_block` | read | Block by number/hash/latest |
-| `get_latest_blocks` | read | Recent blocks |
+| `get_block` | read | Block by number/hash/latest (optional `includeTransactions`) |
+| `get_latest_blocks` | read | Recent blocks (optional `offset`, up to 100) |
 | `get_transaction` | read | Tx + receipt |
 | `get_account` | read | CELO balance, nonce |
+| `resolve_ens` | read | Resolve Celo or Ethereum ENS name |
 | `get_celo_balances` | read | CELO + ERC-20 balances (default: CELO + USDm) |
 | `get_stablecoin_balances` | read | All registry stablecoins including GoodDollar |
 | `get_token_info` | read | Token metadata |
-| `estimate_send` | read* | Gas estimate (*needs `CELO_PRIVATE_KEY`) |
+| `get_token_balance` | read | ERC-20 balance by contract address |
+| `get_gas_fee_data` | read | Current gas fees (EIP-1559 when supported) |
+| `estimate_transaction` | read | Generic tx gas estimate (from/to/value/data) |
+| `estimate_send` | read* | Token send gas estimate (*needs `CELO_PRIVATE_KEY`) |
 | `send_token` | write | Send CELO or ERC-20 |
 | `get_mento_fx_quote` | read | Mento FX expected output (no wallet) |
 | `estimate_mento_fx` | read* | Mento FX gas estimate (*needs `CELO_PRIVATE_KEY`) |
@@ -228,6 +232,17 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 | `supply_aave` | write | Supply tokens to Aave V3 on Celo (USDT, WETH, USDm, USDC, CELO, EURm) |
 | `withdraw_aave` | write | Withdraw tokens from Aave V3 on Celo |
 | `get_gooddollar_whitelisting_info` | read | GoodDollar IdentityV4 whitelist status |
+| `get_governance_proposals` | read | Celo governance proposals (paginated) |
+| `get_proposal_details` | read | Governance proposal details + CGP content |
+| `get_staking_balances` | read | Staking votes by validator group |
+| `get_activatable_stakes` | read | Pending stakes ready to activate |
+| `get_validator_groups` | read | Validator groups (paginated) |
+| `get_validator_group_details` | read | Single validator group details |
+| `get_total_staking_info` | read | Network-wide staking totals |
+| `get_nft_info` | read | NFT token info + metadata |
+| `get_nft_balance` | read | NFT balance (ERC-721 or ERC-1155) |
+| `call_contract_function` | read | Read-only contract call (caller ABI) |
+| `estimate_contract_gas` | read | Contract function gas estimate (caller ABI) |
 | `verify_self_agent` | read | Verify Self Agent ID on-chain by address |
 | `lookup_self_agent` | read | Look up Self agent by numeric ID (ai.self.xyz) |
 | `verify_self_request` | read | Verify signed Self Agent HTTP request headers |
