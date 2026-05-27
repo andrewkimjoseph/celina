@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** Celina MCP server entry — stdio transport. Env is loaded before server bootstrap. */
 import "./config/load-env.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createServer } from "./server/create-server.js";
