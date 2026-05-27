@@ -86,5 +86,31 @@ export const tokenTools: ToolModule = {
         }
       },
     );
+
+    server.registerTool(
+      "get_token_balance",
+      {
+        title: "Get Token Balance",
+        description:
+          "Returns ERC-20 balance for a specific token contract address on mainnet.",
+        inputSchema: z.object({
+          tokenAddress: addressSchema,
+          address: addressSchema,
+        }),
+        annotations: { readOnlyHint: true, idempotentHint: true },
+      },
+      async ({ tokenAddress, address }) => {
+        try {
+          return ok(
+            await ctx.token.getTokenBalance(
+              tokenAddress as `0x${string}`,
+              address as `0x${string}`,
+            ),
+          );
+        } catch (error) {
+          return err(error instanceof Error ? error.message : String(error));
+        }
+      },
+    );
   },
 };
