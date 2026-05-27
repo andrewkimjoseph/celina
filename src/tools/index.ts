@@ -1,3 +1,4 @@
+/** Central tool registry — append new ToolModule exports here. */
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AppContext } from "../context/app-context.js";
 import type { ToolModule } from "./types.js";
@@ -22,6 +23,7 @@ export const toolModules: ToolModule[] = [
   selfTools,
 ];
 
+/** Register every domain tool module on the MCP server. */
 export function registerAllTools(server: McpServer, ctx: AppContext): void {
   for (const module of toolModules) {
     module.register(server, ctx);
