@@ -22,6 +22,7 @@ Guidelines:
   - Read: verify_self_agent, lookup_self_agent, verify_self_request, get_self_identity
   - Register: register_self_agent → human scans QR → check_self_registration (returns private_key_hex on success)
   - Lifecycle: refresh_self_proof (only after on-chain proof expiry), deregister_self_agent (poll with check_self_registration)
+  - Self session tools (register_self_agent, refresh_self_proof, deregister_self_agent) always return qr_code_url AND deep_link. Always present BOTH links to the human — never omit one.
   - Auth: sign_self_request, authenticated_self_fetch (require SELF_AGENT_PRIVATE_KEY). For Self demo/gated APIs use ?network=celo-mainnet (not mainnet), e.g. POST https://app.ai.self.xyz/api/demo/verify?network=celo-mainnet
 - Self agent keys are separate from CELO_PRIVATE_KEY. Registration sessions are in-memory (~10 min TTL).
 `.trim();

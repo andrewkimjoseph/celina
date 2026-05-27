@@ -1,4 +1,43 @@
+import { selfQrUrl } from "../clients/self-api.js";
 import { SELF_PROOF_EXPIRING_SOON_DAYS } from "../config/self.js";
+
+export interface SelfSessionLinksInput {
+  sessionToken: string;
+  deepLink: string;
+  scanUrl?: string;
+  apiBase?: string;
+}
+
+export interface SelfSessionLinks {
+  qr_code_url: string;
+  deep_link: string;
+}
+
+export function resolveSelfSessionLinks(
+  input: SelfSessionLinksInput,
+): SelfSessionLinks {
+  const qr_code_url = input.scanUrl ?? selfQrUrl(input.sessionToken, input.apiBase);
+  const deep_link = input.deepLink.trim();
+
+  if (!qr_code_url) {
+    throw new Error("Self session is missing a QR code URL.");
+  }
+
+  if (!deep_link || deep_link === "undefined") {
+    throw new Error("Self session is missing a deep link.");
+  }
+
+  return { qr_code_url, deep_link };
+}
+
+export function formatSelfSessionLinksDisplay(links: SelfSessionLinks): string {
+  return [
+    "Present BOTH links to the human (never omit one):",
+    "",
+    `QR code URL: ${links.qr_code_url}`,
+    `Deep link: ${links.deep_link}`,
+  ].join("\n");
+}
 
 export interface SelfCredentialLike {
   nationality?: string;

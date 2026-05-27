@@ -19,7 +19,6 @@ import {
   requestRegistration,
   SelfApiError,
   SelfExpiredSessionError,
-  selfQrUrl,
   type SelfRegistrationDisclosures,
 } from "../clients/self-api.js";
 import type { SelfRegistrationMode } from "../config/self.js";
@@ -42,6 +41,7 @@ import {
   formatAgentInfo,
   formatCredentialsSummary,
   proofExpiryFields,
+  resolveSelfSessionLinks,
   truncateBody,
 } from "../utils/self-format.js";
 import { computeSigningMessage } from "../utils/self-signing.js";
@@ -74,6 +74,33 @@ export interface RegisterSelfAgentParams {
 
 function agentKeyFromAddress(address: `0x${string}`): Hex {
   return pad(address, { size: 32 });
+}
+
+function buildSelfSessionPayload(
+  session: {
+    sessionToken: string;
+    deepLink: string;
+    scanUrl?: string;
+    expiresAt: string;
+    humanInstructions: string[];
+  },
+  extra: Record<string, unknown> = {},
+) {
+  const { qr_code_url, deep_link } = resolveSelfSessionLinks({
+    sessionToken: session.sessionToken,
+    deepLink: session.deepLink,
+    scanUrl: session.scanUrl,
+  });
+
+  return {
+    session_id: session.sessionToken,
+    qr_code_url,
+    qr_url: qr_code_url,
+    deep_link,
+    expires_at: session.expiresAt,
+    instructions: session.humanInstructions.join("\n"),
+    ...extra,
+  };
 }
 
 function normalizeCredentials(raw: {
@@ -676,16 +703,11 @@ export class SelfService {
       createdAt: Date.now(),
     });
 
-    return {
-      session_id: session.sessionToken,
+    return buildSelfSessionPayload(session, {
       agent_address: session.agentAddress,
-      qr_url: session.scanUrl ?? selfQrUrl(session.sessionToken),
-      deep_link: session.deepLink,
-      expires_at: session.expiresAt,
-      instructions: session.humanInstructions.join("\n"),
       next_step:
         "Have the human scan the QR/deep link, then call check_self_registration with this session_id. The private key will be returned only after verification completes.",
-    };
+    });
   }
 
   async checkRegistration(sessionId: string) {
@@ -807,17 +829,12 @@ export class SelfService {
       createdAt: Date.now(),
     });
 
-    return {
-      session_id: session.sessionToken,
+    return buildSelfSessionPayload(session, {
       agent_id: agentId,
-      qr_url: session.scanUrl ?? selfQrUrl(session.sessionToken),
-      deep_link: session.deepLink,
-      expires_at: session.expiresAt,
-      instructions: session.humanInstructions.join("\n"),
       ...proofStatus,
       next_step:
         "Have the human scan the QR/deep link with the Self app, then call check_self_registration with this session_id to poll for completion.",
-    };
+    });
   }
 
   async deregisterAgent() {
@@ -834,17 +851,12 @@ export class SelfService {
       createdAt: Date.now(),
     });
 
-    return {
-      session_id: session.sessionToken,
-      qr_url: session.scanUrl ?? selfQrUrl(session.sessionToken),
-      deep_link: session.deepLink,
-      expires_at: session.expiresAt,
-      instructions: session.humanInstructions.join("\n"),
+    return buildSelfSessionPayload(session, {
       warning:
         "WARNING: Deregistration is IRREVERSIBLE. The agent's on-chain identity will be permanently revoked. The human owner must scan the QR code with the Self app to confirm.",
       next_step:
         "After the human scans the QR code, call check_self_registration with this session_id to poll for completion.",
-    };
+    });
   }
 
   async signRequest(params: {

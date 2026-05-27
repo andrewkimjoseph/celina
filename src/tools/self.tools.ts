@@ -4,7 +4,7 @@ import type { AppContext } from "../context/app-context.js";
 import { selfDemoUrl } from "../config/self.js";
 import type { ToolModule } from "./types.js";
 import { addressSchema } from "../schemas/common.js";
-import { err, ok } from "./helpers.js";
+import { err, ok, okSelfSession } from "./helpers.js";
 
 const SELF_DEMO_VERIFY_URL = selfDemoUrl("/api/demo/verify");
 
@@ -120,7 +120,7 @@ export const selfTools: ToolModule = {
       {
         title: "Register Self Agent",
         description:
-          "Start Self Agent ID registration. Returns a QR/deep link for the human to scan with the Self app. Poll with check_self_registration.",
+          "Start Self Agent ID registration. Returns qr_code_url and deep_link for the human to scan with the Self app. Always present BOTH links to the user. Poll with check_self_registration.",
         inputSchema: z.object({
           mode: selfRegistrationModeSchema.describe(
             "Registration mode (default wallet-free)",
@@ -140,15 +140,15 @@ export const selfTools: ToolModule = {
       },
       async (args) => {
         try {
-          return ok(
-            await ctx.self.registerAgent({
+          return okSelfSession(
+            (await ctx.self.registerAgent({
               mode: args.mode,
               minimumAge: args.minimum_age,
               ofac: args.ofac,
               humanAddress: args.human_address as `0x${string}` | undefined,
               agentName: args.agent_name,
               agentDescription: args.agent_description,
-            }),
+            })) as Record<string, unknown>,
           );
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
@@ -199,7 +199,7 @@ export const selfTools: ToolModule = {
       {
         title: "Refresh Self Proof",
         description:
-          "Start a human proof refresh after on-chain proof expiry (isProofFresh is false). Returns an error while the proof is still fresh. Poll completion with check_self_registration. Self SDK also supports deregister_self_agent then register_self_agent.",
+          "Start a human proof refresh after on-chain proof expiry (isProofFresh is false). Returns qr_code_url and deep_link — always present BOTH to the user. Returns an error while the proof is still fresh. Poll completion with check_self_registration. Self SDK also supports deregister_self_agent then register_self_agent.",
         inputSchema: z.object({
           agent_id: z.number().int().positive().optional(),
         }),
@@ -207,10 +207,10 @@ export const selfTools: ToolModule = {
       },
       async ({ agent_id }) => {
         try {
-          return ok(
-            await ctx.self.refreshProof({
+          return okSelfSession(
+            (await ctx.self.refreshProof({
               agentId: agent_id,
-            }),
+            })) as Record<string, unknown>,
           );
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
@@ -223,7 +223,7 @@ export const selfTools: ToolModule = {
       {
         title: "Deregister Self Agent",
         description:
-          "Start irreversible Self agent deregistration. Human must confirm via Self app QR. Poll with check_self_registration. Requires SELF_AGENT_PRIVATE_KEY in MCP server env.",
+          "Start irreversible Self agent deregistration. Returns qr_code_url and deep_link — always present BOTH to the user. Human must confirm via Self app. Poll with check_self_registration. Requires SELF_AGENT_PRIVATE_KEY in MCP server env.",
         inputSchema: z.object({}),
         annotations: {
           destructiveHint: true,
@@ -232,7 +232,9 @@ export const selfTools: ToolModule = {
       },
       async () => {
         try {
-          return ok(await ctx.self.deregisterAgent());
+          return okSelfSession(
+            (await ctx.self.deregisterAgent()) as Record<string, unknown>,
+          );
         } catch (error) {
           return err(error instanceof Error ? error.message : String(error));
         }
