@@ -16,6 +16,8 @@
   <a href="https://celina.andrewkimjoseph.com">Website</a>
   ·
   <a href="https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp">npm</a>
+  ·
+  <a href="https://mcp.usecelina.xyz/api/mcp">Hosted (read-only)</a>
 </p>
 
 ## Install
@@ -30,9 +32,11 @@ If you still use `@andrewkimjoseph/celina`, update your MCP config `args` to `@a
 
 ## Quick start
 
-Celina is not meant to be run manually in a terminal for normal use. Your MCP client (Cursor, Claude Desktop, LM Studio, etc.) spawns it as a child process and talks to it over stdio.
+**Recommended:** install locally and connect over stdio — full tool support (including writes with your own keys), no cold starts, and keys stay on your machine.
 
-Install from npm, then add Celina to your MCP config — see [MCP setup](#mcp-setup).
+Your MCP client (Cursor, Claude Desktop, LM Studio, etc.) spawns Celina as a child process via `npx`. See [Local stdio (recommended)](#local-stdio-recommended).
+
+For read-only chain queries without a local install, a hosted endpoint is available at [https://mcp.usecelina.xyz/api/mcp](https://mcp.usecelina.xyz/api/mcp) — see [Hosted (read-only)](#hosted-read-only).
 
 ## MCP setup
 
@@ -176,6 +180,34 @@ npm run inspect
 - Use models with reliable tool-calling support; small or older models may skip tools or call them incorrectly.
 - Start with read-only prompts, e.g. *"What's the USDm balance of 0x…?"* or *"Is this wallet GoodDollar whitelisted?"*
 - Keep private keys in env vars only — never commit them to config files in git.
+
+## Hosted (read-only)
+
+A public read-only endpoint is available at **https://mcp.usecelina.xyz/api/mcp** (alias: `/mcp`). Use this when you only need chain reads and don't want a local `npx` install.
+
+**Local stdio remains the recommended setup** — it supports write tools with your own keys, Self Agent ID flows, and avoids serverless cold starts.
+
+**Client config (read-only, no local install):**
+
+```json
+{
+  "mcpServers": {
+    "celina-mcp": {
+      "url": "https://mcp.usecelina.xyz/api/mcp"
+    }
+  }
+}
+```
+
+The hosted service runs on Vercel via [celina-mcp-host](../celina-mcp-host/). Do **not** send private keys to the hosted endpoint — writes are disabled server-side.
+
+**Works without keys:** all `get_*` tools, `resolve_ens`, `get_mento_fx_quote`, `estimate_transaction`, `get_gas_fee_data`, `verify_self_agent`, `lookup_self_agent`, governance/staking/NFT/contract reads, etc.
+
+**Fails gracefully:** `send_token`, `execute_mento_fx`, `supply_aave`, `withdraw_aave`, `estimate_send`, `estimate_mento_fx` (require local `CELO_PRIVATE_KEY` via stdio).
+
+**Unreliable on serverless:** `register_self_agent` / `check_self_registration` — Self sessions are in-memory and do not persist across stateless function invocations.
+
+See [celina-mcp-host/README.md](../celina-mcp-host/README.md) if you want to deploy your own instance.
 
 ## Write tools
 
