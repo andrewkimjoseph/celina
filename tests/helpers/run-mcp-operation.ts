@@ -1,9 +1,13 @@
-import { createCelinaClient } from "../../../celina-sdk/src/index.js";
-import type { MainnetFixtures } from "../../../celina-sdk/tests/fixtures/mainnet.js";
-import { getMainnetFixtures } from "../../../celina-sdk/tests/fixtures/mainnet.js";
-import type { OperationSpec } from "../../../celina-sdk/tests/catalog/types.js";
-import { getOperationSkipReason } from "../../../celina-sdk/tests/helpers/gating.js";
-import { loadTestConfig } from "../../../celina-sdk/tests/helpers/env.js";
+import { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
+import type {
+  MainnetFixtures,
+  OperationSpec,
+} from "@andrewkimjoseph/celina-sdk/testing";
+import {
+  getMainnetFixtures,
+  getOperationSkipReason,
+  loadTestConfig,
+} from "@andrewkimjoseph/celina-sdk/testing";
 import {
   McpStdioClient,
   parseToolResultBody,

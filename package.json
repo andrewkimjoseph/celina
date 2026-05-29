@@ -63,7 +63,7 @@
   },
   "homepage": "https://github.com/andrewkimjoseph/celina-mcp#readme",
   "dependencies": {
-    "@andrewkimjoseph/celina-sdk": "file:../celina-sdk",
+    "@andrewkimjoseph/celina-sdk": "^0.2.12",
     "@modelcontextprotocol/sdk": "^1.22.0",
     "@noble/ed25519": "^3.1.0",
     "dotenv": "^17.4.2",

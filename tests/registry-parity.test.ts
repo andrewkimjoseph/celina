@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { MCP_TOOL_NAMES } from "../../celina-sdk/tests/catalog/operations.js";
+import { MCP_TOOL_NAMES } from "@andrewkimjoseph/celina-sdk/testing";
 import { getMcpClient } from "./helpers/run-mcp-operation.js";
 
 const TOOLS_DIR = path.resolve(

@@ -1,14 +1,16 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { MCP_OPERATIONS } from "../../celina-sdk/tests/catalog/operations.js";
+import { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
+import {
+  getMainnetFixtures,
+  loadTestConfig,
+  MCP_OPERATIONS,
+} from "@andrewkimjoseph/celina-sdk/testing";
 import {
   closeMcpClient,
   enrichFixturesForMcp,
   getMcpClient,
   runMcpOperation,
 } from "./helpers/run-mcp-operation.js";
-import { createCelinaClient } from "../../celina-sdk/src/index.js";
-import { getMainnetFixtures } from "../../celina-sdk/tests/fixtures/mainnet.js";
-import { loadTestConfig } from "../../celina-sdk/tests/helpers/env.js";
 
 beforeAll(async () => {
   await getMcpClient();
