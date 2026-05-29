@@ -1,7 +1,7 @@
 import type { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
-import type { PreparedTx, UniswapSwapParams } from "@andrewkimjoseph/celina-sdk";
-import { type Hex } from "viem";
-import type { CeloClientFactory, CeloClients } from "../clients/celo-client.js";
+import type { UniswapSwapParams } from "@andrewkimjoseph/celina-sdk";
+import type { CeloClientFactory } from "../clients/celo-client.js";
+import { executePreparedFlow, requireWalletClients } from "./execute-prepared-flow.js";
 
 type CelinaClient = ReturnType<typeof createCelinaClient>;
 
@@ -10,16 +10,6 @@ export class UniswapService {
     private readonly clientFactory: CeloClientFactory,
     private readonly sdk: CelinaClient,
   ) {}
-
-  private requireClients(): CeloClients {
-    const clients = this.clientFactory.getClients();
-    if (!clients.wallet || !clients.accountAddress) {
-      throw new Error(
-        "No wallet configured. Set CELO_PRIVATE_KEY in the MCP server env.",
-      );
-    }
-    return clients;
-  }
 
   getSwapQuote(
     tokenIn: string,
@@ -35,36 +25,10 @@ export class UniswapService {
     amount: string,
     params?: UniswapSwapParams,
   ): ReturnType<CelinaClient["uniswap"]["estimateSwap"]> {
-    const { accountAddress: from } = this.requireClients();
-    if (!from) {
-      throw new Error("Wallet address unavailable.");
-    }
+    const { accountAddress: from } = requireWalletClients(
+      this.clientFactory.getClients(),
+    );
     return this.sdk.uniswap.estimateSwap(from, tokenIn, tokenOut, amount, params);
-  }
-
-  private async executePreparedStep(
-    wallet: NonNullable<CeloClients["wallet"]>,
-    publicClient: CeloClients["public"],
-    step: PreparedTx,
-  ): Promise<`0x${string}`> {
-    const account = wallet.account;
-    if (!account) {
-      throw new Error("Wallet account unavailable.");
-    }
-
-    const chain = publicClient.chain;
-    if (!chain) {
-      throw new Error("Chain configuration missing.");
-    }
-
-    // Prepared steps from celina-sdk already include the CELINA calldata suffix.
-    return wallet.sendTransaction({
-      chain,
-      account,
-      to: step.to,
-      data: step.data as Hex | undefined,
-      value: step.value ? BigInt(step.value) : undefined,
-    });
   }
 
   async executeSwap(
@@ -90,14 +54,8 @@ export class UniswapService {
     indexSource?: string;
     route: { pools: unknown[] };
   }> {
-    const { public: client, wallet, accountAddress: from } =
-      this.requireClients();
-
-    if (!wallet || !from) {
-      throw new Error(
-        "Wallet client unavailable. Set CELO_PRIVATE_KEY in the MCP server env.",
-      );
-    }
+    const clients = requireWalletClients(this.clientFactory.getClients());
+    const { accountAddress: from } = clients;
 
     const prepared = await this.sdk.uniswap.prepareSwap(
       from,
@@ -107,16 +65,10 @@ export class UniswapService {
       params,
     );
 
-    const stepHashes: `0x${string}`[] = [];
-
-    for (const step of prepared.steps) {
-      const hash = await this.executePreparedStep(wallet, client, step);
-      stepHashes.push(hash);
-      await client.waitForTransactionReceipt({ hash });
-    }
-
-    const hash = stepHashes[stepHashes.length - 1]!;
-    const receipt = await client.waitForTransactionReceipt({ hash });
+    const { stepHashes, hash, status } = await executePreparedFlow(
+      clients,
+      prepared.steps,
+    );
     const quote = await this.sdk.uniswap.getSwapQuote(tokenIn, tokenOut, amount);
 
     return {
@@ -125,7 +77,7 @@ export class UniswapService {
       recipient: params?.recipient ?? from,
       stepHashes,
       hash,
-      status: receipt.status,
+      status,
       slippageTolerance: params?.slippageTolerance ?? 0.5,
       deadlineMinutes: params?.deadlineMinutes ?? 5,
     };
