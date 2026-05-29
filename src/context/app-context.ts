@@ -1,9 +1,9 @@
 /**
- * Application context: SDK read services + local wallet-backed write services.
+ * Application context: SDK read services + wallet-backed write executors.
  *
  * Reads (blockchain, token, gooddollar, ens) come from celina-sdk.
- * Writes (transaction, mentoFx, aave, self) use CeloClientFactory with CELO_PRIVATE_KEY
- * because MCP agents sign server-side — unlike celina-agent where the user signs in-browser.
+ * Writes call celina-sdk prepare* methods, then sign steps with CELO_PRIVATE_KEY
+ * via executePreparedFlow — unlike celina-agent where the user signs in-browser.
  */
 import { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
 import type { CeloClientFactory } from "../clients/celo-client.js";
@@ -48,7 +48,7 @@ export interface AppContext {
   token: ReturnType<typeof createCelinaClient>["token"];
   /** SDK transaction reads (gas fees, generic estimates). */
   sdkTransaction: ReturnType<typeof createCelinaClient>["transaction"];
-  /** Local service — signs sends with `CELO_PRIVATE_KEY`. */
+  /** Local service — signs SDK-prepared send steps with `CELO_PRIVATE_KEY`. */
   transaction: TransactionService;
   mentoFx: MentoFxService;
   uniswap: UniswapService;
@@ -64,7 +64,7 @@ export interface AppContext {
 }
 
 /**
- * Compose MCP tool context: celina-sdk reads plus wallet-backed write services.
+ * Compose MCP tool context: celina-sdk reads plus SDK prepare* write executors.
  * Writes sign server-side; celina-agent uses prepare* + user wallet instead.
  */
 export function createAppContext(
@@ -90,10 +90,10 @@ export function createAppContext(
     account: sdk.account,
     token: sdk.token,
     sdkTransaction: sdk.transaction,
-    transaction: new TransactionService(clientFactory),
-    mentoFx: new MentoFxService(clientFactory),
+    transaction: new TransactionService(clientFactory, sdk),
+    mentoFx: new MentoFxService(clientFactory, sdk),
     uniswap: new UniswapService(clientFactory, sdk),
-    aave: new AaveService(clientFactory),
+    aave: new AaveService(clientFactory, sdk),
     gooddollar: sdk.gooddollar,
     governance: sdk.governance,
     staking: sdk.staking,
