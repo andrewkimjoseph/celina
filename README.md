@@ -201,9 +201,9 @@ A public read-only endpoint is available at **https://mcp.usecelina.xyz/api/mcp*
 
 The hosted service runs on Vercel via [celina-mcp-host](../celina-mcp-host/). Do **not** send private keys to the hosted endpoint — writes are disabled server-side.
 
-**Works without keys:** all `get_*` tools, `resolve_ens`, `get_mento_fx_quote`, `estimate_transaction`, `get_gas_fee_data`, `verify_self_agent`, `lookup_self_agent`, governance/staking/NFT/contract reads, etc.
+**Works without keys:** all `get_*` tools, `resolve_ens`, `get_mento_fx_quote`, `get_uniswap_quote`, `estimate_transaction`, `get_gas_fee_data`, `verify_self_agent`, `lookup_self_agent`, governance/staking/NFT/contract reads, etc.
 
-**Fails gracefully:** `send_token`, `execute_mento_fx`, `supply_aave`, `withdraw_aave`, `estimate_send`, `estimate_mento_fx` (require local `CELO_PRIVATE_KEY` via stdio).
+**Fails gracefully:** `send_token`, `execute_mento_fx`, `execute_uniswap_swap`, `supply_aave`, `withdraw_aave`, `estimate_send`, `estimate_mento_fx`, `estimate_uniswap_swap` (require local `CELO_PRIVATE_KEY` via stdio).
 
 **Unreliable on serverless:** `register_self_agent` / `check_self_registration` — Self sessions are in-memory and do not persist across stateless function invocations.
 
@@ -211,13 +211,13 @@ See [celina-mcp-host/README.md](../celina-mcp-host/README.md) if you want to dep
 
 ## Write tools
 
-Set `CELO_PRIVATE_KEY` in your MCP server `env` block for on-chain writes (`send_token`, `estimate_send`, `execute_mento_fx`, `supply_aave`, `withdraw_aave`). Use `SELF_AGENT_PRIVATE_KEY` for Self agent signing tools. Keys stay on your machine and are not sent to Celina's authors.
+Set `CELO_PRIVATE_KEY` in your MCP server `env` block for on-chain writes (`send_token`, `estimate_send`, `execute_mento_fx`, `execute_uniswap_swap`, `supply_aave`, `withdraw_aave`). Use `SELF_AGENT_PRIVATE_KEY` for Self agent signing tools. Keys stay on your machine and are not sent to Celina's authors.
 
 ## Environment variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `CELO_PRIVATE_KEY` | — | Write tools (send, Mento FX, Aave) |
+| `CELO_PRIVATE_KEY` | — | Write tools (send, Mento FX, Uniswap v4, Aave) |
 | `SELF_AGENT_PRIVATE_KEY` | — | Self Agent ID signing/identity tools (separate from CELO wallet) |
 | `SELF_AGENT_API_BASE` | `https://app.ai.self.xyz` | Override Self Agent ID REST API base URL |
 | `CELO_RPC_URL_MAINNET` | Forno public RPC | Override mainnet RPC |
@@ -240,7 +240,7 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 - `get_celo_balances` — check specific tokens (defaults to `CELO` + `USDm`)
 - `get_stablecoin_balances` — scan all registry stablecoins in one call (omits zero balances by default)
 
-## Tools (v0.7)
+## Tools
 
 | Tool | Type | Description |
 |------|------|-------------|
@@ -261,6 +261,9 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 | `get_mento_fx_quote` | read | Mento FX expected output (no wallet) |
 | `estimate_mento_fx` | read* | Mento FX gas estimate (*needs `CELO_PRIVATE_KEY`) |
 | `execute_mento_fx` | write | Execute Mento FX conversion |
+| `get_uniswap_quote` | read | Uniswap v4 expected output (no wallet) |
+| `estimate_uniswap_swap` | read* | Uniswap v4 gas estimate incl. Permit2 approvals (*needs `CELO_PRIVATE_KEY`) |
+| `execute_uniswap_swap` | write | Execute Uniswap v4 swap (Universal Router + Permit2) |
 | `supply_aave` | write | Supply tokens to Aave V3 on Celo (USDT, WETH, USDm, USDC, CELO, EURm) |
 | `withdraw_aave` | write | Withdraw tokens from Aave V3 on Celo |
 | `get_gooddollar_whitelisting_info` | read | GoodDollar IdentityV4 whitelist status |
@@ -285,6 +288,22 @@ Token symbols are resolved case-insensitively. Legacy aliases `cUSD` and `cEUR` 
 | `deregister_self_agent` | write | Irreversibly revoke Self agent identity |
 | `sign_self_request` | read* | Sign HTTP request with Self agent headers (*needs agent key) |
 | `authenticated_self_fetch` | write | HTTP fetch with Self agent auth (*needs agent key) |
+
+### Mento FX vs Uniswap v4
+
+Two swap protocols are available. Pick based on the token pair:
+
+| | Mento FX | Uniswap v4 |
+|---|----------|------------|
+| **Best for** | Mento oracle stables (USDm, EURm, CELO, …) | AMM pairs (e.g. G$ → USDT, USDC → USDT) |
+| **Quote tool** | `get_mento_fx_quote` | `get_uniswap_quote` |
+| **Execute flow** | `estimate_mento_fx` → `execute_mento_fx` | `estimate_uniswap_swap` → `execute_uniswap_swap` |
+| **Approvals** | ERC-20 approve when needed | ERC-20 approve + Permit2 approve when needed |
+| **Availability** | Closed when Mento FX market is closed | Pool must exist on-chain |
+
+For pairs Mento cannot route (e.g. GoodDollar → USDT), use Uniswap. CELO swaps route through WCELO pools — the signer needs WCELO (wrapped CELO) balance, not native CELO. All on-chain steps include the CELINA attribution tag.
+
+Recommended LLM flow: quote both when unsure (`get_mento_fx_quote` and `get_uniswap_quote`), compare `expectedOut`, then estimate and execute on the better route.
 
 ### Self Agent ID notes
 
@@ -332,8 +351,8 @@ Read-only chain logic comes from [`@andrewkimjoseph/celina-sdk`](https://www.npm
 
 | Layer | Source | Examples |
 |-------|--------|----------|
-| Reads | celina-sdk | balances, blocks, FX quotes, GoodDollar status, ENS |
-| Writes | Local services | `send_token`, `execute_mento_fx`, `supply_aave`, `withdraw_aave` |
+| Reads | celina-sdk | balances, blocks, Mento/Uniswap quotes, GoodDollar status, ENS |
+| Writes | Local services | `send_token`, `execute_mento_fx`, `execute_uniswap_swap`, `supply_aave`, `withdraw_aave` |
 | Self Agent ID | Local `SelfService` | registration, proof refresh, authenticated fetch (`SELF_AGENT_PRIVATE_KEY`) |
 
 Self Agent ID is **not** in celina-sdk. For frontend Self flows use [`@selfxyz/agent-sdk`](https://www.npmjs.com/package/@selfxyz/agent-sdk).
@@ -371,6 +390,7 @@ Copy `.env.example` to `.env` for `CELO_PRIVATE_KEY`, `SELF_AGENT_PRIVATE_KEY`, 
 ## Roadmap
 
 - [x] Mento FX routing (`get_mento_fx_quote`, `estimate_mento_fx`, `execute_mento_fx`)
+- [x] Uniswap v4 swaps (`get_uniswap_quote`, `estimate_uniswap_swap`, `execute_uniswap_swap`)
 - [x] Aave lending tools (`supply_aave`, `withdraw_aave`) — USDT, WETH, USDm, USDC, CELO, EURm
 - [x] Self proof verification (`verify_self_agent`, `verify_self_request`, `ai.self.xyz`)
 - [x] Self Agent ID check (`lookup_self_agent`, registration & lifecycle tools)
