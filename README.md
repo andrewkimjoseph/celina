@@ -33,8 +33,10 @@ git submodule update --init --recursive
 | Pull latest everywhere | `git pull && git submodule update --init --recursive` |
 | Status across submodules | `./scripts/status-all.sh` |
 | Work in one package | `cd celina-sdk` — commit and push in the submodule repo as usual |
-| Bump submodule pointer | After a submodule merges to `main`: `git add celina-sdk && git commit -m "Bump celina-sdk"` |
-| Publish SDK / MCP | See [PUBLISH.md](PUBLISH.md) |
+| Bump submodule pointer | `./scripts/bump-submodule.sh celina-sdk` then `git push` |
+| Workflow & releases (read first) | See [PUBLISH.md](PUBLISH.md) |
+
+Agents: the [celina-meta-repo](.cursor/skills/celina-meta-repo/SKILL.md) skill applies in this repo.
 
 ## Related projects
 
