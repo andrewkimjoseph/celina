@@ -40,4 +40,4 @@ Agents: the [celina-meta-repo](.cursor/skills/celina-meta-repo/SKILL.md) skill a
 
 ## Related projects
 
-[Celeste AI](https://celeste.usecelina.xyz) ([source](https://github.com/andrewkimjoseph/celeste-ai)) is a separate wallet chat UI that consumes `@andrewkimjoseph/celina-sdk`. It is not included in this meta-repo.
+[Celeste AI](https://celeste.usecelina.xyz) ([source](https://github.com/andrewkimjoseph/celeste-ai)) is a separate wallet chat UI that consumes `@andrewkimjoseph/celina-sdk` — reference app for SDK simulation (`/simulation`) and MiniPay fee handling in the confirm flow. It is not included in this meta-repo.
