@@ -4,7 +4,7 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
-valid_dirs=(celina-sdk celina-mcp celina-mcp-host celina-website)
+valid_dirs=(celina-sdk celina-mcp celina-mcp-host celina-website celeste-ai)
 
 usage() {
   echo "Usage: $0 <submodule>" >&2
