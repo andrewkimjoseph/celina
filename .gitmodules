@@ -10,3 +10,6 @@
 [submodule "celina-website"]
 	path = celina-website
 	url = https://github.com/andrewkimjoseph/celina-website.git
+[submodule "celeste-ai"]
+	path = celeste-ai
+	url = https://github.com/andrewkimjoseph/celeste-ai.git
