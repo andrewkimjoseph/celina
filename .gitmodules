@@ -4,9 +4,9 @@
 [submodule "celina-mcp"]
 	path = celina-mcp
 	url = https://github.com/andrewkimjoseph/celina-mcp.git
-[submodule "celina-mcp-host"]
-	path = celina-mcp-host
-	url = https://github.com/andrewkimjoseph/celina-mcp-host.git
+[submodule "celina-mcp-remote"]
+	path = celina-mcp-remote
+	url = https://github.com/andrewkimjoseph/celina-mcp-remote.git
 [submodule "celina-website"]
 	path = celina-website
 	url = https://github.com/andrewkimjoseph/celina-website.git
