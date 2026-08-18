@@ -1,3 +1,5 @@
 .cursor/
 PUBLISH.md
 guides/
+posts/
+.DS_Store
