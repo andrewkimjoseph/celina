@@ -11,7 +11,7 @@ Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo main
 | [celina-mcp-remote](celina-mcp-remote/) | [mcp.usecelina.xyz](https://mcp.usecelina.xyz) | Vercel-hosted read-only remote MCP endpoint |
 | [celina-website](celina-website/) | [usecelina.xyz](https://usecelina.xyz) | Docs, stats dashboard, and marketing site |
 | [celeste-ai](celeste-ai/) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
-| [celina-api](celina-api/) | Cloudflare Pages (manual deploy) | Public read-only REST over SDK `read` tools (Hono) |
+| [celina-api](celina-api/) | Cloudflare Workers (manual deploy) | Public read-only REST over SDK `read` tools (Hono) |
 
 Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote; `celina-sdk` → `celeste-ai`; `celina-sdk` → `celina-api`).
 
