@@ -1,6 +1,6 @@
 # Celina
 
-Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, and Celeste wallet chat UI.
+Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, and read-only HTTP API.
 
 ## Repositories
 
@@ -11,8 +11,9 @@ Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo main
 | [celina-mcp-remote](celina-mcp-remote/) | [mcp.usecelina.xyz](https://mcp.usecelina.xyz) | Vercel-hosted read-only remote MCP endpoint |
 | [celina-website](celina-website/) | [usecelina.xyz](https://usecelina.xyz) | Docs, stats dashboard, and marketing site |
 | [celeste-ai](celeste-ai/) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
+| [celina-api](celina-api/) | Cloudflare Pages (manual deploy) | Public read-only REST over SDK `read` tools (Hono) |
 
-Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote; `celina-sdk` → `celeste-ai`).
+Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote; `celina-sdk` → `celeste-ai`; `celina-sdk` → `celina-api`).
 
 ## Clone
 
@@ -39,4 +40,4 @@ git submodule update --init --recursive
 
 Agents: the [celina-meta-repo](.cursor/skills/celina-meta-repo/SKILL.md) skill applies in this repo.
 
-After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`).
+After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`).

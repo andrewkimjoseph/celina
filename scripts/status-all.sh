@@ -4,7 +4,7 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
-for dir in celina-sdk celina-mcp celina-mcp-remote celina-website celeste-ai; do
+for dir in celina-sdk celina-mcp celina-mcp-remote celina-website celeste-ai celina-api; do
   echo "=== $dir ==="
   if [[ -d "$dir/.git" || -f "$dir/.git" ]]; then
     git -C "$dir" status -sb

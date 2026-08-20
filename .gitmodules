@@ -13,3 +13,6 @@
 [submodule "celeste-ai"]
 	path = celeste-ai
 	url = https://github.com/andrewkimjoseph/celeste-ai.git
+[submodule "celina-api"]
+	path = celina-api
+	url = https://github.com/andrewkimjoseph/celina-api.git
