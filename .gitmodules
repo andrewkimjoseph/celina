@@ -16,3 +16,6 @@
 [submodule "celina-api"]
 	path = celina-api
 	url = https://github.com/andrewkimjoseph/celina-api.git
+[submodule "celina-bot"]
+	path = celina-bot
+	url = https://github.com/andrewkimjoseph/celina-bot.git
