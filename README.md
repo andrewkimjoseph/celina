@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andrewkimjoseph/celina-sdk/main/assets/celina-banner.svg" alt="Celina — Give your LLM a wallet on Celo">
+</p>
+
 # Celina
 
 Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, read-only HTTP API, and Telegram bot.
