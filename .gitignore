@@ -1,5 +1,8 @@
-.cursor/
-PUBLISH.md
+# Local Cursor state — project skills are tracked for GitHub
+.cursor/*
+!.cursor/skills/
+!.cursor/skills/**
+
 guides/
 posts/
 .DS_Store
