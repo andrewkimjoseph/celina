@@ -6,6 +6,8 @@
 
 Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, read-only HTTP API, and Telegram bot.
 
+Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build-with-ai/mcp/celina).
+
 ## Repositories
 
 | Submodule | Link | Description |
