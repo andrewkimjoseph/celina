@@ -8,7 +8,7 @@ Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo main
 |-----------|------------------|-------------|
 | [celina-sdk](celina-sdk/) | [`@andrewkimjoseph/celina-sdk`](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) | Shared TypeScript SDK and LLM tool catalog |
 | [celina-mcp](celina-mcp/) | [`@andrewkimjoseph/celina-mcp`](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) | MCP server for local stdio agents |
-| [celina-mcp-remote](celina-mcp-remote/) | [usecelina.xyz/mcp](https://usecelina.xyz/mcp) | Vercel-hosted read-only remote MCP endpoint |
+| [celina-mcp-remote](celina-mcp-remote/) | [usecelina.xyz/mcp/remote](https://usecelina.xyz/mcp/remote) | Vercel-hosted read-only remote MCP endpoint |
 | [celina-website](celina-website/) | [usecelina.xyz](https://usecelina.xyz) | Docs, stats dashboard, and marketing site |
 | [celeste-ai](celeste-ai/) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
 | [celina-api](celina-api/) | [usecelina.xyz/api](https://usecelina.xyz/api) | Public read-only REST over SDK `read` tools (Hono) |
