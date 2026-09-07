@@ -4,7 +4,7 @@ description: >
   Celina meta-repository workflow: git submodule edits, push submodule,
   bump parent pointer, and npm publish order. Use when working in the celina
   meta-repo, committing or pushing in celina-sdk/celina-mcp/celina-mcp-remote/
-  celina-website/celeste-ai/celina-api/celina-bot, bumping submodule pointers, publishing
+  celina-website/celeste-ai/celina-api/celina-bot/celina-stats-api, bumping submodule pointers, publishing
   @andrewkimjoseph/celina-sdk or celina-mcp, or asking about celina repo structure.
 ---
 
@@ -16,7 +16,7 @@ Read [PUBLISH.md](../../../PUBLISH.md) first — it is the source of truth for t
 
 Every change follows the same loop:
 
-1. **Edit in submodule** — `cd celina-sdk` (or `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`, `celina-bot`) and make changes there
+1. **Edit in submodule** — `cd celina-sdk` (or `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`, `celina-bot`, `celina-stats-api`) and make changes there
 2. **Push submodule** — commit and push to that repo's `main`
 3. **Bump parent pointer** — from the parent `celina/` root: `./scripts/bump-submodule.sh <submodule>` then `git push`
 
@@ -33,6 +33,7 @@ Never commit source code only in the parent repo. Never bump the parent before t
 | `celeste-ai/` | Vercel deploy → celeste.usecelina.xyz — wallet chat UI (SDK browser surface) |
 | `celina-api/` | Cloudflare Workers → api.usecelina.xyz — public read-only REST over SDK read tools |
 | `celina-bot/` | Cloudflare Workers → bot.usecelina.xyz — Telegram bot over Celina API |
+| `celina-stats-api/` | Cloudflare Workers → api.stats.usecelina.xyz — on-chain + off-chain stats |
 
 ## Before finishing any task
 

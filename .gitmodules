@@ -19,3 +19,6 @@
 [submodule "celina-bot"]
 	path = celina-bot
 	url = https://github.com/andrewkimjoseph/celina-bot.git
+[submodule "celina-stats-api"]
+	path = celina-stats-api
+	url = https://github.com/andrewkimjoseph/celina-stats-api.git

@@ -8,7 +8,7 @@ This document is the source of truth for working in the Celina meta-repository. 
 
 | Step | Where | Action |
 |------|-------|--------|
-| 1 | `celina-sdk/`, `celina-mcp/`, `celina-mcp-remote/`, `celina-website/`, `celeste-ai/`, `celina-api/`, or `celina-bot/` | Commit and push to that repo's `main` |
+| 1 | `celina-sdk/`, `celina-mcp/`, `celina-mcp-remote/`, `celina-website/`, `celeste-ai/`, `celina-api/`, `celina-bot/`, or `celina-stats-api/` | Commit and push to that repo's `main` |
 | 2 | Parent `celina/` | `git add <submodule> && git commit -m "Bump <submodule>"` — or `./scripts/bump-submodule.sh <submodule>` |
 | 3 | Parent `celina/` | `git push` |
 
@@ -50,7 +50,8 @@ When releasing packages to npm, complete the core loop for each change first, th
 5. Bump `@andrewkimjoseph/celina-sdk` in `celeste-ai/` (exact version, no `^`), commit, push, then `./scripts/bump-submodule.sh celeste-ai`. Celeste deploys from its own repo on Vercel — not npm.
 6. Bump `@andrewkimjoseph/celina-sdk` in `celina-api/` (exact version, no `^`) when the HTTP API should pick up catalog changes. Celina API is a Cloudflare Worker — not npm.
 7. Bump `@andrewkimjoseph/celina-sdk` in `celina-bot/` (exact version, no `^`) and run `npm run sync-aliases` when the Telegram bot should pick up catalog changes. Celina bot is a Cloudflare Worker — not npm.
-8. With as many commits as you can, commit all changes and push — in each submodule repo, then bump submodule pointers in this parent repo if needed.
+8. Bump `@andrewkimjoseph/celina-sdk` in `celina-stats-api/` (exact version, no `^`) when the stats Worker should pick up SDK attribution helpers. Deploy via the Cloudflare dashboard — not the local Wrangler CLI, not npm.
+9. With as many commits as you can, commit all changes and push — in each submodule repo, then bump submodule pointers in this parent repo if needed.
 
 ## Agent completion checklist
 

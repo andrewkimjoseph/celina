@@ -4,7 +4,7 @@
 
 # Celina
 
-Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, read-only HTTP API, and Telegram bot.
+Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, read-only HTTP API, Telegram bot, and stats API.
 
 Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build-with-ai/mcp/celina).
 
@@ -19,6 +19,7 @@ Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build
 | [celeste-ai](https://github.com/andrewkimjoseph/celeste-ai) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
 | [celina-api](https://github.com/andrewkimjoseph/celina-api) | [usecelina.xyz/api](https://usecelina.xyz/api) | Public read-only REST over SDK `read` tools (Hono) |
 | [celina-bot](https://github.com/andrewkimjoseph/celina-bot) | [usecelina.xyz/bot](https://usecelina.xyz/bot) | Telegram bot over the Celina API |
+| [celina-stats-api](https://github.com/andrewkimjoseph/celina-stats-api) | [api.stats.usecelina.xyz](https://api.stats.usecelina.xyz) | On-chain + off-chain stats ingest/read (Cloudflare Worker) |
 
 Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote; `celina-sdk` → `celeste-ai`; `celina-sdk` → `celina-api`). `celina-bot` calls the public API at runtime (SDK is a bot **devDependency** for alias generation only).
 
@@ -47,4 +48,4 @@ git submodule update --init --recursive
 
 Agents: the [celina-meta-repo](.cursor/skills/celina-meta-repo/SKILL.md) skill applies in this repo.
 
-After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`, `celina-bot`).
+After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`, `celina-bot`, `celina-stats-api`).
