@@ -19,7 +19,7 @@ Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build
 | [celeste-ai](https://github.com/andrewkimjoseph/celeste-ai) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
 | [celina-api](https://github.com/andrewkimjoseph/celina-api) | [usecelina.xyz/api](https://usecelina.xyz/api) | Public read-only REST over SDK `read` tools (Hono) |
 | [celina-bot](https://github.com/andrewkimjoseph/celina-bot) | [usecelina.xyz/bot](https://usecelina.xyz/bot) | Telegram bot over the Celina API |
-| [celina-stats-api](https://github.com/andrewkimjoseph/celina-stats-api) | [api.stats.usecelina.xyz](https://api.stats.usecelina.xyz) | On-chain + off-chain stats ingest/read (Cloudflare Worker) |
+| [celina-stats-api](https://github.com/andrewkimjoseph/celina-stats-api) | [api.stats.usecelina.xyz](https://api.stats.usecelina.xyz) | On-chain, off-chain, and npm package stats (Cloudflare Worker) |
 
 Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote; `celina-sdk` → `celeste-ai`; `celina-sdk` → `celina-api`). `celina-bot` calls the public API at runtime (SDK is a bot **devDependency** for alias generation only).
 
