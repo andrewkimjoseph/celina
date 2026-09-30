@@ -22,3 +22,6 @@
 [submodule "celina-stats-api"]
 	path = celina-stats-api
 	url = https://github.com/andrewkimjoseph/celina-stats-api.git
+[submodule "celina-status"]
+	path = celina-status
+	url = https://github.com/andrewkimjoseph/celina-status.git
