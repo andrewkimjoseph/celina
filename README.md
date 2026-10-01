@@ -47,6 +47,6 @@ git submodule update --init --recursive
 | Bump submodule pointer | `./scripts/bump-submodule.sh celina-sdk` then `git push` |
 | Workflow & releases (read first) | See [PUBLISH.md](PUBLISH.md) |
 
-Agents: the [celina-meta-repo](.cursor/skills/celina-meta-repo/SKILL.md) skill applies in this repo.
+Agents: follow [AGENTS.md](AGENTS.md) in this repo.
 
 After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`, `celina-bot`, `celina-stats-api`, `celina-status`).
