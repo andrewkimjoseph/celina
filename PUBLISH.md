@@ -50,7 +50,7 @@ When releasing packages to npm, complete the core loop for each change first, th
 5. Bump `@andrewkimjoseph/celina-sdk` in `celeste-ai/` (exact version, no `^`), commit, push, then `./scripts/bump-submodule.sh celeste-ai`. Celeste deploys from its own repo on Vercel — not npm.
 6. Bump `@andrewkimjoseph/celina-sdk` in `celina-api/` (exact version, no `^`) when the HTTP API should pick up catalog changes. Celina API is a Cloudflare Worker — not npm.
 7. Bump `@andrewkimjoseph/celina-sdk` in `celina-bot/` (exact version, no `^`) and run `npm run sync-aliases` when the Telegram bot should pick up catalog changes. Celina bot is a Cloudflare Worker — not npm.
-8. Bump `@andrewkimjoseph/celina-sdk` in `celina-stats-api/` (exact version, no `^`) when the stats Worker should pick up SDK attribution helpers. Deploy via the Cloudflare dashboard — not the local Wrangler CLI, not npm.
+8. Bump `@andrewkimjoseph/celina-sdk` in `celina-stats-api/` (exact version, no `^`) when the stats Worker should pick up SDK attribution helpers. Deploy with `npx wrangler deploy` from that submodule (`account_id` in `wrangler.jsonc` pins the CELINA account). Not npm.
 9. With as many commits as you can, commit all changes and push — in each submodule repo, then bump submodule pointers in this parent repo if needed.
 
 `celina-status/` is a Cloudflare Worker (TanStack Start) at `status.usecelina.xyz`. It does not publish to npm and does not depend on `@andrewkimjoseph/celina-sdk`.
