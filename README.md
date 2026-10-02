@@ -4,7 +4,7 @@
 
 # Celina
 
-Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, read-only HTTP API, Telegram bot, stats API, and status page.
+Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, full-catalog Celina Chat, read-only HTTP API, Telegram bot, stats API, and status page.
 
 Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build-with-ai/mcp/celina).
 
@@ -17,6 +17,7 @@ Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build
 | [celina-mcp-remote](https://github.com/andrewkimjoseph/celina-mcp-remote) | [usecelina.xyz/mcp/remote](https://usecelina.xyz/mcp/remote) | Vercel-hosted read-only remote MCP endpoint |
 | [celina-website](https://github.com/andrewkimjoseph/celina-website) | [usecelina.xyz](https://usecelina.xyz) | Docs, stats dashboard, and marketing site |
 | [celeste-ai](https://github.com/andrewkimjoseph/celeste-ai) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
+| [celina-chat](https://github.com/andrewkimjoseph/celina-chat) | [chat.usecelina.xyz](https://chat.usecelina.xyz) | Full-catalog wallet chat — every browser-surface SDK tool, wagmi signing |
 | [celina-api](https://github.com/andrewkimjoseph/celina-api) | [usecelina.xyz/api](https://usecelina.xyz/api) | Public read-only REST over SDK `read` tools (Hono) |
 | [celina-bot](https://github.com/andrewkimjoseph/celina-bot) | [usecelina.xyz/bot](https://usecelina.xyz/bot) | Telegram bot over the Celina API |
 | [celina-stats-api](https://github.com/andrewkimjoseph/celina-stats-api) | [api.stats.usecelina.xyz](https://api.stats.usecelina.xyz) | On-chain ingest, read-telemetry forwarder, Amplitude export cron, npm downloads |
@@ -49,4 +50,4 @@ git submodule update --init --recursive
 
 Agents: follow [AGENTS.md](AGENTS.md) in this repo.
 
-After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-api`, `celina-bot`, `celina-stats-api`, `celina-status`).
+After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-chat`, `celina-api`, `celina-bot`, `celina-stats-api`, `celina-status`).
