@@ -25,3 +25,6 @@
 [submodule "celina-status"]
 	path = celina-status
 	url = https://github.com/andrewkimjoseph/celina-status.git
+[submodule "celina-chat"]
+	path = celina-chat
+	url = https://github.com/andrewkimjoseph/celina-chat.git
