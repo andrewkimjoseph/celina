@@ -18,8 +18,8 @@ Never commit source code only in the parent repo. Never bump the parent before t
 
 | Submodule | Purpose |
 |-----------|---------|
-| `celina-sdk/` | `@andrewkimjoseph/celina-sdk` — shared TypeScript SDK and tool catalog |
-| `celina-mcp/` | `@andrewkimjoseph/celina-mcp` — local stdio MCP server |
+| `celina-sdk/` | `@cnvlabskoxyz/celina-sdk` — shared TypeScript SDK and tool catalog |
+| `celina-mcp/` | `@cnvlabskoxyz/celina-mcp` — local stdio MCP server |
 | `celina-mcp-remote/` | Vercel deploy → mcp.usecelina.xyz |
 | `celina-website/` | Vercel deploy → usecelina.xyz |
 | `celeste-ai/` | Vercel deploy → celeste.usecelina.xyz — wallet chat UI (SDK browser surface) |
