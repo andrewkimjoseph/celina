@@ -4,9 +4,11 @@
 
 # Celina
 
-Meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — one clone for the SDK, MCP server, hosted endpoint, website, Celeste wallet chat UI, full-catalog Celina Chat, read-only HTTP API, Telegram bot, stats API, and status page.
+Open-source meta-repository for the [Celina](https://usecelina.xyz) agent stack on Celo mainnet — the SDK, the local MCP server, and the hosted MCP endpoint.
 
 Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build-with-ai/mcp/celina).
+
+Hosted apps (website, Celeste, chat, API, bot, stats, and status) live in the private [`thecanvassing/celina-enterprise`](https://github.com/thecanvassing/celina-enterprise) meta-repo.
 
 ## Repositories
 
@@ -15,21 +17,14 @@ Listed in the [official Celo MCP docs](https://docs.celo.org/build-on-celo/build
 | [celina-sdk](https://github.com/andrewkimjoseph/celina-sdk) | [usecelina.xyz/sdk](https://usecelina.xyz/sdk) | Shared TypeScript SDK and LLM tool catalog |
 | [celina-mcp](https://github.com/andrewkimjoseph/celina-mcp) | [usecelina.xyz/mcp](https://usecelina.xyz/mcp) | MCP server for local stdio agents |
 | [celina-mcp-remote](https://github.com/andrewkimjoseph/celina-mcp-remote) | [usecelina.xyz/mcp/remote](https://usecelina.xyz/mcp/remote) | Vercel-hosted read-only remote MCP endpoint |
-| [celina-website](https://github.com/andrewkimjoseph/celina-website) | [usecelina.xyz](https://usecelina.xyz) | Docs, stats dashboard, and marketing site |
-| [celeste-ai](https://github.com/andrewkimjoseph/celeste-ai) | [celeste.usecelina.xyz](https://celeste.usecelina.xyz) | Wallet chat UI — SDK browser surface, wagmi signing, confirm-card simulation |
-| [celina-chat](https://github.com/andrewkimjoseph/celina-chat) | [chat.usecelina.xyz](https://chat.usecelina.xyz) | Full-catalog wallet chat — every browser-surface SDK tool, wagmi signing |
-| [celina-api](https://github.com/andrewkimjoseph/celina-api) | [usecelina.xyz/api](https://usecelina.xyz/api) | Public read-only REST over SDK `read` tools (Hono) |
-| [celina-bot](https://github.com/andrewkimjoseph/celina-bot) | [usecelina.xyz/bot](https://usecelina.xyz/bot) | Telegram bot over the Celina API |
-| [celina-stats-api](https://github.com/andrewkimjoseph/celina-stats-api) | [api.stats.usecelina.xyz](https://api.stats.usecelina.xyz) | On-chain ingest, read-telemetry forwarder, Amplitude export cron, npm downloads |
-| [celina-status](https://github.com/andrewkimjoseph/celina-status) | [status.usecelina.xyz](https://status.usecelina.xyz) | Public uptime and usage for the hosted stack |
 
-Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote; `celina-sdk` → `celeste-ai`; `celina-sdk` → `celina-api`). `celina-bot` calls the public API at runtime (SDK is a bot **devDependency** for alias generation only).
+Each submodule is an independent git repository with its own history, CI, and deploy targets. npm dependencies link packages (`celina-sdk` → `celina-mcp` → remote).
 
 ## Clone
 
 ```bash
-git clone --recurse-submodules https://github.com/andrewkimjoseph/celina.git
-cd celina
+git clone --recurse-submodules https://github.com/andrewkimjoseph/celina-oss.git
+cd celina-oss
 ```
 
 If you already cloned without submodules:
@@ -50,4 +45,4 @@ git submodule update --init --recursive
 
 Agents: follow [AGENTS.md](AGENTS.md) in this repo.
 
-After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`, `celina-website`, `celeste-ai`, `celina-chat`, `celina-api`, `celina-bot`, `celina-stats-api`, `celina-status`).
+After cloning, run `npm install` in each submodule you work in (`celina-sdk`, `celina-mcp`, `celina-mcp-remote`).

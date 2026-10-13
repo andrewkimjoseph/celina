@@ -7,24 +7,3 @@
 [submodule "celina-mcp-remote"]
 	path = celina-mcp-remote
 	url = https://github.com/andrewkimjoseph/celina-mcp-remote.git
-[submodule "celina-website"]
-	path = celina-website
-	url = https://github.com/andrewkimjoseph/celina-website.git
-[submodule "celeste-ai"]
-	path = celeste-ai
-	url = https://github.com/andrewkimjoseph/celeste-ai.git
-[submodule "celina-api"]
-	path = celina-api
-	url = https://github.com/andrewkimjoseph/celina-api.git
-[submodule "celina-bot"]
-	path = celina-bot
-	url = https://github.com/andrewkimjoseph/celina-bot.git
-[submodule "celina-stats-api"]
-	path = celina-stats-api
-	url = https://github.com/andrewkimjoseph/celina-stats-api.git
-[submodule "celina-status"]
-	path = celina-status
-	url = https://github.com/andrewkimjoseph/celina-status.git
-[submodule "celina-chat"]
-	path = celina-chat
-	url = https://github.com/andrewkimjoseph/celina-chat.git

@@ -1,6 +1,8 @@
-# Celina meta-repo workflow
+# Celina OSS meta-repo workflow
 
-This document is the source of truth for working in the Celina meta-repository. Every change — code, docs, or releases — follows the same core loop.
+This document is the source of truth for working in the Celina open-source meta-repository. Every change — code, docs, or releases — follows the same core loop.
+
+Hosted apps (website, Celeste, chat, API, bot, stats, and status) are private submodules of `thecanvassing/celina-enterprise`. SDK pin bumps for those apps happen in that parent, not here.
 
 ## Core loop (always)
 
@@ -8,9 +10,9 @@ This document is the source of truth for working in the Celina meta-repository. 
 
 | Step | Where | Action |
 |------|-------|--------|
-| 1 | `celina-sdk/`, `celina-mcp/`, `celina-mcp-remote/`, `celina-website/`, `celeste-ai/`, `celina-chat/`, `celina-api/`, `celina-bot/`, `celina-stats-api/`, or `celina-status/` | Commit and push to that repo's `main` |
-| 2 | Parent `celina/` | `git add <submodule> && git commit -m "Bump <submodule>"` — or `./scripts/bump-submodule.sh <submodule>` |
-| 3 | Parent `celina/` | `git push` |
+| 1 | `celina-sdk/`, `celina-mcp/`, or `celina-mcp-remote/` | Commit and push to that repo's `main` |
+| 2 | Parent `celina-oss/` | `git add <submodule> && git commit -m "Bump <submodule>"` — or `./scripts/bump-submodule.sh <submodule>` |
+| 3 | Parent `celina-oss/` | `git push` |
 
 Example after editing the SDK:
 
@@ -30,6 +32,7 @@ Do **not**:
 - Commit source code only in the parent repo — the parent tracks submodule pointers, not package source
 - Bump the parent pointer before the submodule commit is pushed to its remote
 - Finish work with `git status` showing `m celina-sdk` (or similar) in the parent
+- Add the private hosted apps back into this parent
 
 ### Health check
 
@@ -47,16 +50,7 @@ When releasing packages to npm, complete the core loop for each change first, th
 2. Bump the version for the SDK (`celina-sdk/`) then publish.
 3. Bump the version of the MCP (`celina-mcp/`), set an **exact** `@cnvlabskoxyz/celina-sdk` version (no `^`) matching the SDK you just published, then publish.
 4. Update **only** `@cnvlabskoxyz/celina-mcp` in MCP remote (`celina-mcp-remote/`). Do not list `celina-sdk` or swap libs directly on the remote deploy — they install transitively through celina-mcp.
-5. Bump `@cnvlabskoxyz/celina-sdk` in `celeste-ai/` (exact version, no `^`), commit, push, then `./scripts/bump-submodule.sh celeste-ai`. Celeste deploys from its own repo on Vercel — not npm.
-6. Bump `@cnvlabskoxyz/celina-sdk` in `celina-chat/` (exact version, no `^`), commit, push, then `./scripts/bump-submodule.sh celina-chat`. Deploy with `npx wrangler deploy` from that submodule (`account_id` in `wrangler.jsonc` pins the CELINA account). Not npm.
-7. Bump `@cnvlabskoxyz/celina-sdk` in `celina-api/` (exact version, no `^`) when the HTTP API should pick up catalog changes. Celina API is a Cloudflare Worker — not npm.
-8. Bump `@cnvlabskoxyz/celina-sdk` in `celina-bot/` (exact version, no `^`) and run `npm run sync-aliases` when the Telegram bot should pick up catalog changes. Celina bot is a Cloudflare Worker — not npm.
-9. Bump `@cnvlabskoxyz/celina-sdk` in `celina-stats-api/` (exact version, no `^`) when the stats Worker should pick up SDK attribution helpers. Deploy with `npx wrangler deploy` from that submodule (`account_id` in `wrangler.jsonc` pins the CELINA account). Not npm.
-10. With as many commits as you can, commit all changes and push — in each submodule repo, then bump submodule pointers in this parent repo if needed.
-
-`celina-status/` is a Cloudflare Worker (TanStack Start) at `status.usecelina.xyz`. It does not publish to npm and does not depend on `@cnvlabskoxyz/celina-sdk`.
-
-`celina-chat/` is a Cloudflare Worker (TanStack Start) at `chat.usecelina.xyz`. It depends on an exact `@cnvlabskoxyz/celina-sdk` version and does not publish to npm.
+5. Bump `@cnvlabskoxyz/celina-sdk` in the enterprise apps from `thecanvassing/celina-enterprise` (exact version, no `^`). Those apps are not published to npm. See that repo's `PUBLISH.md`.
 
 ## Agent completion checklist
 
